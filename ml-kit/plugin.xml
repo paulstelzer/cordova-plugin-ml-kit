@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<plugin xmlns="http://apache.org/cordova/ns/plugins/1.0" id="cordova-plugin-ml-kit" version="1.0.0">
+    <name>Cordova Plugin ML Kit</name>
+    <description></description>
+    <license>MIT</license>
+    <keywords></keywords>
+
+    <!-- android -->
+    <platform name="android">
+        <js-module src="www/plugin.js" name="plugin">
+            <clobbers target="MlKitPlugin" />
+        </js-module>
+        <config-file target="res/xml/config.xml" parent="/*">
+            <feature name="MlKitPlugin">
+                <param name="android-package" value="de.paulstelzer.MlKitPlugin" />
+                <param name="onload" value="true" />
+            </feature>
+        </config-file>
+        <config-file target="AndroidManifest.xml" parent="/manifest/application">
+            <meta-data android:name="com.google.firebase.ml.vision.DEPENDENCIES" android:value="ocr" />
+        </config-file>
+
+        <framework src="com.google.firebase:firebase-ml-vision:+" />
+
+        <source-file src="src/android/de/paulstelzer/MlKitPlugin.java" target-dir="src/de/paulstelzer" />
+    </platform>
+
+    <!-- ios -->
+    <!--     <platform name="ios">
+        <js-module src="www/plugin.js" name="plugin">
+            <clobbers target="MlKitPlugin" />
+        </js-module>
+        <config-file target="config.xml" parent="/*">
+            <feature name="MlKitPlugin">
+                <param name="ios-package" value="MlKitPlugin" onload="true" />
+            </feature>
+        </config-file>
+
+        <header-file src="src/ios/MlKitPlugin.h" />
+        <source-file src="src/ios/MlKitPlugin.m" />
+    </platform> -->
+</plugin>

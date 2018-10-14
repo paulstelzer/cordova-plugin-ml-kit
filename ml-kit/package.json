@@ -1,0 +1,19 @@
+{
+  "cordova": {
+    "id": "cordova-plugin-ml-kit",
+    "platforms": [
+      "android",
+      "ios"
+    ]
+  },
+  "deprecated": false,
+  "description": "A starting point for a Cordova Plugin",
+  "name": "cordova-plugin-ml-kit",
+  "version": "1.0.0",
+  "keywords": [
+    "firebase",
+    "ml-kit",
+    "ecosystem:cordova",
+    "cordova-android"
+]
+}
