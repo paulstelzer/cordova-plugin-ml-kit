@@ -7,7 +7,7 @@
     ]
   },
   "deprecated": false,
-  "description": "A starting point for a Cordova Plugin",
+  "description": "Adds ML Kit support for Firebase",
   "name": "cordova-plugin-ml-kit",
   "version": "1.0.0",
   "keywords": [
@@ -15,5 +15,8 @@
     "ml-kit",
     "ecosystem:cordova",
     "cordova-android"
-]
+  ],
+  "peerDependencies": {
+    "cordova-plugin-firebase": "^2.0.0"
+  }
 }
