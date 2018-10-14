@@ -2,6 +2,18 @@
 
 Implements ML Kit as Cordova plugin on iOS and Android.
 
+## PR / Contribution
+
+It would be great if you could add a PR to add more features. Please use Semantic Commit Messages:
+
+- type(scope): Description
+
+Type: `fix`, `feat`, `docs`, `refactor`, `lint` or `chore`
+
+Scope: Use the first word of the feature of ML Kit in lowercase (e.g. text, face)
+
+Description: Describe what you did
+
 ## Installation
 
 ``cordova plugin add cordova-plugin-ml-kit``
@@ -14,7 +26,7 @@ The Make Photo button is currently set to ``PHOTOLIBRARY``, so you have to take 
 
 ## Features
 
-At the moment only Text Recognition on Android is supported! So it would be great if you could add a PR to add more features. This plugin requires ``cordova-plugin-firebase``!
+At the moment only Text Recognition on Android is supported! This plugin requires ``cordova-plugin-firebase``!
 
 | Feature                | Android | Android (Cloud) | iOS | iOS (Cloud) |
 |------------------------|---------|-----------------|-----|-------------|
