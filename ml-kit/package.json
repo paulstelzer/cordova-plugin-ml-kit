@@ -18,5 +18,7 @@
   ],
   "peerDependencies": {
     "cordova-plugin-firebase": "^2.0.0"
-  }
+  },
+  "homepage": "https://github.com/paulstelzer/cordova-plugin-ml-kit",
+  "repository": "paulstelzer/cordova-plugin-ml-kit"
 }
