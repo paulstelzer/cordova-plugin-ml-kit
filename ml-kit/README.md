@@ -16,8 +16,8 @@ At the moment only Text Recognition on Android is supported! So it would be grea
 | Face detection         | [ ]     |                 | [ ] |             |
 | Barcode scanning       | [ ]     |                 | [ ] |             |
 | Image labeling         | [ ]     | [ ]             | [ ] | [ ]         |
-| Landmark recognition   |         |                 | [ ] | [ ]         |
-| Custom model inference | [ ]     | [ ]             |     |             |
+| Landmark recognition   |         | [ ]             |     | [ ]         |
+| Custom model inference | [ ]     |                 | [ ] |             |
 
 Some features of ML Kit are only available on device others only on cloud. Please see https://firebase.google.com/docs/ml-kit/ for more information!
 
