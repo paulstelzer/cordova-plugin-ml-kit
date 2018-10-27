@@ -35,5 +35,5 @@ On-Device
 
 ``getTextCloud(img, options, success, error) {}``
 
-Cloud
+Cloud - You can add a language, so ML Kit knows what language the text has (improves the recognition). ``options = { language: 'de' }``
 
