@@ -36,7 +36,7 @@ export class HomePage {
   getText(file) {
     if (window['MlKitPlugin']) {
       console.log('Get Text');
-      window['MlKitPlugin'].getText(file,
+      window['MlKitPlugin'].getText(file, {},
         (success) => {
           console.log('GET TEXT SUCCESS', success);
         },
@@ -44,13 +44,13 @@ export class HomePage {
           console.log('GET TEXT ERROR', error);
         });
 
-        window['MlKitPlugin'].getTextCloud(file,
-          (success) => {
-            console.log('GET TEXT CLOUD SUCCESS', success);
-          },
-          (error) => {
-            console.log('GET TEXT CLOUD ERROR', error);
-          });
+      window['MlKitPlugin'].getTextCloud(file, { language: 'de' },
+        (success) => {
+          console.log('GET TEXT CLOUD SUCCESS', success);
+        },
+        (error) => {
+          console.log('GET TEXT CLOUD ERROR', error);
+        });
     }
   }
 }
