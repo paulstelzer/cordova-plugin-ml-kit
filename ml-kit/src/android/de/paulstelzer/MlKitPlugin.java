@@ -37,59 +37,31 @@ public class MlKitPlugin extends CordovaPlugin {
     public boolean execute(String action, JSONArray args, final CallbackContext callbackContext) throws JSONException {
         if (action.equals("getText")) {
             final String img = args.getString(0);
-            cordova.getThreadPool().execute(() -> runTextRecognition(callbackContext, img));
+            cordova.getThreadPool().execute(() -> runTextRecognition(callbackContext, img, "", false));
+            return true;
         } else if (action.equals("getTextCloud")) {
             final String img = args.getString(0);
-            cordova.getThreadPool().execute(() -> runTextRecognitionCloud(callbackContext, img, "de"));
+            final String lang = args.getString(1);
+            Log.d(TAG, "LANGUAGE=" + lang);
+            cordova.getThreadPool().execute(() -> runTextRecognition(callbackContext, img, lang, true));
+            return true;
         }
-        return true;
+        return false;
     }
 
-    private void runTextRecognition(final CallbackContext callbackContext, final String img) {
+    private void runTextRecognition(final CallbackContext callbackContext, final String img, final String language, final Boolean onCloud) {
         Uri imgSource = Uri.parse(img);
 
         try {
             FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(cordova.getContext(), imgSource);
-            FirebaseVisionTextRecognizer textRecognizer = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
-            textRecognizer.processImage(image).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
-                @Override
-                public void onSuccess(FirebaseVisionText texts) {
-                    JSONArray json = new JSONArray();
-
-                    for (FirebaseVisionText.TextBlock block : texts.getTextBlocks()) {
-                        Log.d(TAG, block.getText());
-                        json.put(block.getText());
-                    }
-                    callbackContext.success(json);
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    // Task failed with an exception
-                    e.printStackTrace();
-                    callbackContext.error(e.getMessage());
-                }
-            });
-        } catch (IOException e) {
-            e.printStackTrace();
-            callbackContext.error(e.getMessage());
-        }
-    }
-
-    private void runTextRecognitionCloud(final CallbackContext callbackContext, final String img,
-            final String language) {
-        Uri imgSource = Uri.parse(img);
-
-        try {
-            FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(cordova.getContext(), imgSource);
-
-            FirebaseVisionCloudTextRecognizerOptions options = null;
-            if (!"".equals(language)) {
-                options = new FirebaseVisionCloudTextRecognizerOptions.Builder()
-                        .setLanguageHints(Arrays.asList(language)).build();
+            FirebaseVisionTextRecognizer textRecognizer;
+            
+            if(onCloud) {
+                textRecognizer = this.getTextRecognitionCloud(language);
+            } else {
+                textRecognizer = this.getTextRecognitionDevice();
             }
 
-            FirebaseVisionTextRecognizer textRecognizer = FirebaseVision.getInstance().getCloudTextRecognizer(options);
             textRecognizer.processImage(image).addOnSuccessListener(texts -> {
                 JSONArray json = new JSONArray();
 
@@ -106,6 +78,23 @@ public class MlKitPlugin extends CordovaPlugin {
         } catch (IOException e) {
             e.printStackTrace();
             callbackContext.error(e.getMessage());
+        }
+
+    }
+
+    private FirebaseVisionTextRecognizer getTextRecognitionDevice() {
+        return FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+    }
+
+    private FirebaseVisionTextRecognizer getTextRecognitionCloud( final String language) {
+        if (!language.isEmpty()) {
+            FirebaseVisionCloudTextRecognizerOptions options = new FirebaseVisionCloudTextRecognizerOptions.Builder()
+                    .setLanguageHints(Arrays.asList(language)).build();
+
+            return FirebaseVision.getInstance()
+                    .getCloudTextRecognizer(options);
+        } else {
+            return FirebaseVision.getInstance().getCloudTextRecognizer();
         }
     }
 
