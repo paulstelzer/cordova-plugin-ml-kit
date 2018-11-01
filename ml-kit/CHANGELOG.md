@@ -1,5 +1,5 @@
-<a name="2.0.0"></a>
-## 2.0.0 (2018-11-01)
+<a name="2.0.1"></a>
+## 2.0.1 (2018-11-01)
 
 ### Feature
 * **text:** Serialize more text recognition options ([e86319a](https://github.com/paulstelzer/cordova-plugin-ml-kit/commit/e86319a))
