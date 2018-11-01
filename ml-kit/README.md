@@ -21,19 +21,42 @@ At the moment only Text Recognition on Android is supported! So it would be grea
 
 Some features of ML Kit are only available on device others only on cloud. Please see https://firebase.google.com/docs/ml-kit/ for more information!
 
+## API Methods
 ### Text recognition
 
-img - file:// on device
+##### **`getText(img, options, success, error): void`**
+Text recognition on device
 
-options is under development
+#####  **`getTextCloud(img, options, success, error): void`**
+Text recognition on Cloud - Much better results, but you need an active paid plan (Blaze Plan) and activate it on Google Cloud. Parameter are the same like getText
 
-success returns an array with all text
+| parameter   | type                        | description  |
+| ----------- |-----------------------------|--------------|
+| `image`     | `string`                    | Image path on device (file://)  |
+| `options`   | `Object`                    | Configuration (only used for cloud) |
+| `success` | `(message: Object)=>void` | Success callback |
+| `error`   | `(message: Object)=>void` | Error callback |
 
-``getText(img, options, success, error) {}``
+**`options`**
 
-On-Device
+| name       | type    | default | description            |
+| -----------|---------|---------|------------------------|
+| `language` | `string` |  ''  |   [Language Code](https://firebase.google.com/docs/ml-kit/android/recognize-text#1-run-the-text-recognizer)    |
 
-``getTextCloud(img, options, success, error) {}``
+**`success`**
 
-Cloud - You can add a language, so ML Kit knows what language the text has (improves the recognition). ``options = { language: 'de' }``
+| name        | type    |  description           |
+| ------------|---------|------------------------|
+| `text`      | `string`| Complete text          |
+| `textBlocks`| `Array` | Text Blocks ([Model](https://github.com/paulstelzer/cordova-plugin-ml-kit/tree/master/model/ml-kit.model.ts))  |
 
+
+### Face detection
+
+### Barcode scanning
+
+### Image labeling
+
+### Landmark recognition
+
+### Custom model inference
