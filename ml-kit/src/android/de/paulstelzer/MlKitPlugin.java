@@ -10,6 +10,7 @@ import org.json.JSONException;
 
 import android.net.Uri;
 import android.content.Context;
+import android.graphics.Rect;
 import android.support.annotation.NonNull;
 
 import android.util.Log;
@@ -50,6 +51,15 @@ public class MlKitPlugin extends CordovaPlugin {
         return false;
     }
 
+    private JSONObject mapBoundingBox(Rect rect) throws JSONException {
+      JSONObject oBloundingBox = new JSONObject();
+      oBloundingBox.put("left", rect.left);
+      oBloundingBox.put("right", rect.right);
+      oBloundingBox.put("top", rect.top);
+      oBloundingBox.put("bottom", rect.bottom);
+      return oBloundingBox;
+    }
+
     private void runTextRecognition(final CallbackContext callbackContext, final String img, final String language, final Boolean onCloud) {
         Uri imgSource = Uri.parse(img);
 
@@ -74,15 +84,20 @@ public class MlKitPlugin extends CordovaPlugin {
                 for (FirebaseVisionText.TextBlock block : texts.getTextBlocks()) {
                     Log.d(TAG, block.getText());
                     JSONObject oBlock = new JSONObject();
+                    JSONArray lines = new JSONArray();
                     oBlock.put("text", block.getText());
                     oBlock.put("confidence", block.getConfidence());
-                    JSONObject oBloundingBox = new JSONObject();
-                    oBloundingBox.put("left", block.getBoundingBox().left);
-                    oBloundingBox.put("right", block.getBoundingBox().right);
-                    oBloundingBox.put("top", block.getBoundingBox().top);
-                    oBloundingBox.put("bottom", block.getBoundingBox().bottom);
-                    oBlock.put("boundingBox", oBloundingBox);
+                    oBlock.put("boundingBox", mapBoundingBox(block.getBoundingBox()));
+                    oBlock.put("lines", lines);
                     blocks.put(oBlock);
+
+                    for (FirebaseVisionText.Line line : block.getLines()) {
+                      JSONObject oLine = new JSONObject();
+                      oLine.put("text", line.getText());
+                      oLine.put("confidence", line.getConfidence());
+                      oLine.put("boundingBox", mapBoundingBox(line.getBoundingBox()));
+                      lines.put(oLine);
+                    }
                 }
                 callbackContext.success(json);
               } catch(JSONException e) {
