@@ -9,7 +9,7 @@
   "deprecated": false,
   "description": "Adds ML Kit support for Firebase",
   "name": "cordova-plugin-ml-kit",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "keywords": [
     "firebase",
     "ml-kit",
