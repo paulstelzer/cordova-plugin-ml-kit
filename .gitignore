@@ -1,5 +1,4 @@
 
-### Ionic3 ###
 # Log an tmp data
 *~
 *.sw[mnpcod]
@@ -16,6 +15,12 @@ npm-debug.log*
 log.txt
 .editorconfig
 
+# Trash data
+$RECYCLE.BIN/
+.DS_Store
+Thumbs.db
+UserInterfaceState.xcuserstate
+
 # NPM (Node Package Manager) files
 npm-debug.log*
 node_modules/
@@ -28,19 +33,13 @@ temp/
 .tmp/
 hooks/
 
-# Ionic 3 plugins files
-platforms/
-plugins/
-plugins/android.json
-plugins/ios.json
+# Ionic plugins files
+demo/platforms/
+demo/plugins/
+demo/plugins/android.json
+demo/plugins/ios.json
 demo/www
-google-services.json
+demo/google-services.json
+demo/GoogleService-Info.plist
 
-# Trash data
-$RECYCLE.BIN/
-.DS_Store
-Thumbs.db
-UserInterfaceState.xcuserstate
-
-# End of https://www.gitignore.io/api/ionic3,firebase
 
