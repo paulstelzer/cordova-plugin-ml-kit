@@ -5,6 +5,7 @@ import org.apache.cordova.CordovaInterface;
 import org.apache.cordova.CordovaPlugin;
 import org.apache.cordova.CordovaWebView;
 import org.json.JSONArray;
+import org.json.JSONObject;
 import org.json.JSONException;
 
 import android.net.Uri;
@@ -55,7 +56,7 @@ public class MlKitPlugin extends CordovaPlugin {
         try {
             FirebaseVisionImage image = FirebaseVisionImage.fromFilePath(cordova.getContext(), imgSource);
             FirebaseVisionTextRecognizer textRecognizer;
-            
+
             if(onCloud) {
                 textRecognizer = this.getTextRecognitionCloud(language);
             } else {
@@ -63,13 +64,31 @@ public class MlKitPlugin extends CordovaPlugin {
             }
 
             textRecognizer.processImage(image).addOnSuccessListener(texts -> {
-                JSONArray json = new JSONArray();
+              try {
+                JSONObject json = new JSONObject();
+                JSONArray blocks = new JSONArray();
+
+                json.put("text", texts.getText());
+                json.put("textBlocks", blocks);
 
                 for (FirebaseVisionText.TextBlock block : texts.getTextBlocks()) {
                     Log.d(TAG, block.getText());
-                    json.put(block.getText());
+                    JSONObject oBlock = new JSONObject();
+                    oBlock.put("text", block.getText());
+                    oBlock.put("confidence", block.getConfidence());
+                    JSONObject oBloundingBox = new JSONObject();
+                    oBloundingBox.put("left", block.getBoundingBox().left);
+                    oBloundingBox.put("right", block.getBoundingBox().right);
+                    oBloundingBox.put("top", block.getBoundingBox().top);
+                    oBloundingBox.put("bottom", block.getBoundingBox().bottom);
+                    oBlock.put("boundingBox", oBloundingBox);
+                    blocks.put(oBlock);
                 }
                 callbackContext.success(json);
+              } catch(JSONException e) {
+                e.printStackTrace();
+                callbackContext.error(e.getMessage());
+              }
             }).addOnFailureListener(e -> {
                 // Task failed with an exception
                 e.printStackTrace();
