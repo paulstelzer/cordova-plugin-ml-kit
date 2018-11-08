@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.content.Context;
 import android.graphics.Rect;
 import android.support.annotation.NonNull;
+import android.graphics.Point;
 
 import android.util.Log;
 
@@ -60,6 +61,17 @@ public class MlKitPlugin extends CordovaPlugin {
       return oBloundingBox;
     }
 
+    private JSONArray mapPoints(Point[] points) throws JSONException {
+      JSONArray aPoints = new JSONArray();
+      for (Point point: points) {
+        JSONObject oPoint =  new JSONObject();
+        oPoint.put("x", point.x);
+        oPoint.put("y", point.y);
+        aPoints.put(oPoint);
+      }
+      return aPoints;
+    }
+
     private void runTextRecognition(final CallbackContext callbackContext, final String img, final String language, final Boolean onCloud) {
         Uri imgSource = Uri.parse(img);
 
@@ -88,6 +100,7 @@ public class MlKitPlugin extends CordovaPlugin {
                     oBlock.put("text", block.getText());
                     oBlock.put("confidence", block.getConfidence());
                     oBlock.put("boundingBox", mapBoundingBox(block.getBoundingBox()));
+                    oBlock.put("cornerPoints", mapPoints(block.getCornerPoints()));
                     oBlock.put("lines", lines);
                     blocks.put(oBlock);
 
@@ -96,6 +109,7 @@ public class MlKitPlugin extends CordovaPlugin {
                       oLine.put("text", line.getText());
                       oLine.put("confidence", line.getConfidence());
                       oLine.put("boundingBox", mapBoundingBox(line.getBoundingBox()));
+                      oLine.put("cornerPoints", mapPoints(line.getCornerPoints()));
                       lines.put(oLine);
                     }
                 }
